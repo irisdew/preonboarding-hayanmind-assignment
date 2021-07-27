@@ -7,14 +7,13 @@ const InfiniteScrollList = () => {
   const [ref, inView] = useInView();
 
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     axios
       .get('https://jsonplaceholder.typicode.com/comments', { params: { _page: page, _limit: 10 } })
       .then((response) => {
-        console.log(response.data);
-        setData((prev) => [...prev, ...response.data]);
+        setComments((prev) => [...prev, ...response.data]);
       })
       .catch((error) => {
         console.log(error);
@@ -22,32 +21,33 @@ const InfiniteScrollList = () => {
   }, [page]);
 
   useEffect(() => {
-    console.log(inView);
     if (inView) {
-      setPage((prev) => (prev < 50 ? prev + 1 : prev));
+      setPage((prev) => prev + 1);
     }
   }, [inView]);
 
   return (
-    <Container>
-      {data.map((d, index) => (
-        <Card>
-          <div>
-            <b>Comment Id</b>
-            <span>{d.id}</span>
-          </div>
-          <div>
-            <b>Email</b>
-            <span>{d.email}</span>
-          </div>
-          <div className="comment-box">
-            <b>Comment</b>
-            <span>{d.body}</span>
-          </div>
-          <div ref={index === data.length - 1 ? ref : null}></div>
-        </Card>
-      ))}
-    </Container>
+    <>
+      <Container>
+        {comments.map((comment, index) => (
+          <Card key={index}>
+            <div>
+              <b>Comment Id</b>
+              <span>{comment.id}</span>
+            </div>
+            <div>
+              <b>Email</b>
+              <span>{comment.email}</span>
+            </div>
+            <div className="comment-box">
+              <b>Comment</b>
+              <span>{comment.body}</span>
+            </div>
+          </Card>
+        ))}
+      </Container>
+      {comments.length !== 0 && <div ref={ref} style={{ height: '1px' }}></div>}
+    </>
   );
 };
 
