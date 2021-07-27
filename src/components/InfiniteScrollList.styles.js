@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
   margin-top: 33px;
+  color: #212529;
 `;
 
 export const Card = styled.div`
-  height: 193px;
   width: 500px;
   background: #f8f9fa;
   border: 0.5px solid #ced4da;
-  border-radius: 20px;
   box-sizing: border-box;
-  margin: 0 auto 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
   padding: 20px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
 
   div {
     margin-bottom: 12px;
